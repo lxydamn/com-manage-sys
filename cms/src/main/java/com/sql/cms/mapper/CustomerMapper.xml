@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.CustomerMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.Customer">
+        select * from customer;
+    </select>
+    <select id="selectById" resultType="com.sql.cms.pojo.Customer">
+        select * from customer where cus_no = #{cus_no}
+    </select>
+</mapper>

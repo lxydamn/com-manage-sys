@@ -1,4 +1,4 @@
-package com.sql.cms.demos.config;
+package com.sql.cms.config;
 
 import org.springframework.context.annotation.Configuration;
 

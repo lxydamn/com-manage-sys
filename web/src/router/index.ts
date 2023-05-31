@@ -7,9 +7,26 @@ const routes = [
         redirect:'/index'
     },
     {
-        path: '/index',
-        component: () => import(/* webpackChunkName: "index" */ '../views/hello.vue')
+        path: '/home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue'),
+        children: [
+            {
+                path: '/index',
+                name: 'index',
+                component: () => import(/* webpackChunkName: "index" */ '../views/hello.vue'),
+            },
+        ]
     },
+    {
+        path: '/login',
+        component: () => import(/* webpackChunkName: "index" */ '../views/login.vue')
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "index" */ '../views/register.vue'),
+    }
 
 ];
 

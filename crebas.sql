@@ -1,9 +1,7 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2023/5/31 9:02:36                            */
+/* Created on:     2023/5/31 22:53:21                           */
 /*==============================================================*/
-
-drop database cms;
 
 create database cms;
 
@@ -90,7 +88,7 @@ create table customer
    cus_name             varchar(20) not null,
    cus_tel              varchar(11) not null,
    cus_site             varchar(200) not null,
-   cus_password         varchar(30) not null,
+   cus_pwd              varchar(30) not null,
    primary key (cus_no)
 );
 
@@ -126,7 +124,7 @@ create table orders
 create table orders_goods
 (
    co_no                char(12) not null,
-   su_no                int not null,
+   su_no                varchar(20) not null,
    ord_go_num           int not null,
    ord_go_time          datetime not null,
    primary key (co_no, su_no)
@@ -147,12 +145,12 @@ create table specification
 /*==============================================================*/
 create table supplier
 (
-   su_no                int not null,
+   su_no                varchar(20) not null,
    su_name              varchar(20) not null,
    su_contact           varchar(20) not null,
    su_con_tel           varchar(11) not null,
    su_introduce         varchar(200),
-   su_password          varchar(30) not null,
+   su_pwd               varchar(30) not null,
    primary key (su_no)
 );
 
