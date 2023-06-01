@@ -9,4 +9,9 @@
     <select id="selectById" resultType="com.sql.cms.pojo.Customer">
         select * from customer where cus_no = #{cus_no}
     </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Customer">
+        insert into customer(cus_no, cus_name, cus_tel, cus_site, cus_pwd)
+        values(#{cusNo},#{cusName},#{cusTel},#{cusSite},#{cusPwd})
+    </insert>
 </mapper>

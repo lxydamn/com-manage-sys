@@ -1,11 +1,83 @@
 <template>
+    <div class="header-box">
+        <div class="logo"> CMS 电商系统</div>
+        <a-menu
+         v-model:selectedKeys="current" 
+         mode="horizontal"
+         style="width:100%; display:flex; flex-direction:row-reverse; align-items:center;" 
+         @click="handleClick"
+        >
+        <a-sub-menu key="user">
+            <template #icon>
+                <user-outlined />
+            </template>
+            <template #title>{{ userStore.username }}</template>
+            <a-menu-item-group>
+              <a-menu-item key="userLogout">
+                <template #icon>
+                    <logout-outlined />
+                </template>
+                退出登录
+              </a-menu-item>
+            </a-menu-item-group>
+          </a-sub-menu>
+        </a-menu>
+    </div>
+    
+  </template>
+  <script lang="ts">
+  import { useUserStore } from '../store/user';
+  import { defineComponent, ref } from 'vue';
+  import { UserOutlined, LogoutOutlined} from '@ant-design/icons-vue';
+  const userStore = useUserStore()
 
-</template>
+  export default defineComponent({
+    components: {
+        UserOutlined,
+        LogoutOutlined
+    },
+    setup() {
+      
+      const current = ref<string[]>(['user']);
 
-<script lang="ts">
-</script>
+      const handleClick = (item:any) => {
+        console.log(item)
 
-<style>
+        if (item.key === 'userLogout') {
+            userStore.logout()
+        }
+      }
+      return {
+        current,
+        handleClick,
+        userStore,
+      };
+    },
+  });
+  </script>
 
-</style>
+  <style scoped>
+    .logo {
+        display: flex;
+        align-items: center;
+        width: 350px;
+        text-align: center;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: 900;
+        @supports (-webkit-background-clip: text) or (background-clip: text) {
+            background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+    }
+    .header-box {
+        display: flex;
+    }
+    .ant-menu-overflow {
+        height: 10vh;
+    }
+  </style>
+  
+  
 

@@ -1,8 +1,8 @@
 package com.sql.cms.service.impl;
 
-import com.sql.cms.mapper.CustomerMapper;
-import com.sql.cms.pojo.Customer;
-import com.sql.cms.service.CustomerService;
+import com.sql.cms.mapper.SupplierMapper;
+import com.sql.cms.pojo.Supplier;
+import com.sql.cms.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,42 +11,37 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class SupplierServiceImpl implements SupplierService {
+
     @Autowired
-    private CustomerMapper customerMapper;
+    private SupplierMapper supplierMapper;
     @Override
-    public Customer getUserById(String id) {
-        return customerMapper.selectById(id);
-    }
-
-    @Override
-    public Map<String, String> customerLogin(String id, String password) {
-
+    public Map<String, String> supplierLogin(String id, String password) {
         Map<String, String> resp = new HashMap<>();
 
-        Customer customer = customerMapper.selectById(id);
+        Supplier supplier = supplierMapper.selectById(id);
 
-        if (customer == null) {
+        if (supplier == null) {
             resp.put("error_info", "没找该用户！");
             return resp;
         }
 
-        if (!password.equals(customer.getCusPwd())) {
+        if (!password.equals(supplier.getSuPwd())) {
             resp.put("error_info", "用户密码错误！");
             return resp;
         }
-        resp.put("username", customer.getCusName());
+        resp.put("username", supplier.getSuName());
         resp.put("error_info","success");
 
         return resp;
     }
 
     @Override
-    public Map<String, String> customerRegister(String id, String password, String confirmedPassword) {
+    public Map<String, String> supplierRegister(String id, String password, String confirmedPassword) {
         Map<String, String> resp = new HashMap<>();
-        Customer customer = customerMapper.selectById(id);
+        Supplier supplier = supplierMapper.selectById(id);
 
-        if (customer != null) {
+        if (supplier != null) {
             resp.put("error_info", "用户名重复");
             return resp;
         }
@@ -68,15 +63,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         resp.put("error_info", "success");
 
-        String name = "customer-" +
-                        UUID.randomUUID()
+        String name = "supplier-" +
+                UUID.randomUUID()
                         .toString()
                         .replace("-", "")
                         .substring(0, 6);
 
-        customer = new Customer(id, name, "+86", "中国...", password);
+        supplier = new Supplier(id, name, "联系方式...", "+86","简介...", password);
 
-        customerMapper.insertOne(customer);
+        supplierMapper.insertOne(supplier);
 
         resp.put("error_info", "success");
 

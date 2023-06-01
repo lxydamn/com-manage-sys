@@ -1,5 +1,15 @@
 <template>
 
+    <a-button shape="round" size="large" style="position:fixed; bottom:50px;  right:50px;">
+      <template #icon>
+        <login-outlined />
+      </template>
+      <RouterLink to="/goods">
+        商品管理
+      </RouterLink>
+      
+    </a-button>
+
     <div class="login-box">
         <a-form
         :model="formState"
@@ -49,7 +59,6 @@
                     <RouterLink to="register">
                         注册
                     </RouterLink>
-                    
                   </a-button>
             </a-form-item>
         </div>
@@ -58,21 +67,24 @@
 
     </div>
     
+
   </template>
   <script lang="ts">
   import { defineComponent, reactive, ref } from 'vue';
   import { useUserStore } from '../store/user';
   import axios from 'axios'
   import {notification} from 'ant-design-vue';
-  import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import router from '../router';
+  import { LoginOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+  import router from '../router';
   interface FormState {
     id: string;
     password: string;
   }
+  const is_supplier = ref(false)
   const userStore = useUserStore()
   export default defineComponent({
     components: {
+      LoginOutlined,
       UserOutlined,
       LockOutlined,
     },
@@ -86,12 +98,43 @@ import router from '../router';
       
 
       const onFinish = (values: any) => {
-        axios ({
+        // 供货商登录
+        if (is_supplier.value) {
+            axios ({
+            url:"http://localhost:8080/api/supplier/login",
+            method:'POST',
+            params: {
+              id: values.id,
+              password: values.password,
+            }
+          })
+          .then((resp) => {
+            const data = resp.data;
+            if (data.error_info === 'success') {
+                userStore.$patch({
+                  id: values.id,
+                  username: data.username,
+                  is_login:true,
+                  is_supplier:true,
+                })
+                sessionStorage.setItem("is_login", 'true');
+                router.push("supplier")
+            } else { 
+              notification.error({
+                message:'登录遇到错误',
+                description:data.error_info
+              })
+            }
+          })
+
+        } else {
+          // 普通用户登录
+          axios ({
           url:"http://localhost:8080/api/customer/login",
           method:'POST',
           params: {
             id: values.id,
-            password: values.password
+            password: values.password,
           }
         })
         .then((resp) => {
@@ -102,8 +145,8 @@ import router from '../router';
                 username: data.username,
                 is_login:true,
               })
-
-              router.push("index")
+              sessionStorage.setItem("is_login", 'true');
+              router.push("customer")
           } else {
             notification.error({
               message:'登录遇到错误',
@@ -111,7 +154,7 @@ import router from '../router';
             })
           }
         })
-        
+        }
       };
   
       const onFinishFailed = (errorInfo: any) => {
@@ -122,7 +165,7 @@ import router from '../router';
         formState,
         onFinish,
         onFinishFailed,
-        is_supplier:ref(false),
+        is_supplier,
       };
     },
   });

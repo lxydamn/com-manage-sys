@@ -11,5 +11,7 @@ import java.util.List;
 public interface CustomerMapper {
 
     List<Customer> selectAll();
-    Customer selectById(String cus_id);
+    Customer selectById(String cus_no);
+
+    void insertOne(Customer customer);
 }

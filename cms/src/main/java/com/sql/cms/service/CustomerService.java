@@ -7,4 +7,6 @@ import java.util.Map;
 public interface CustomerService {
     Customer getUserById(String id);
     Map<String, String> customerLogin(String id, String password);
+
+    Map<String, String> customerRegister(String id, String password, String confirmedPassword);
 }

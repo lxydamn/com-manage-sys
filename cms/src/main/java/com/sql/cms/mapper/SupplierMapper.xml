@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.SupplierMapper">
+    <select id="selectById" resultType="com.sql.cms.pojo.Supplier">
+        select * from supplier where su_no = #{su_no}
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Supplier">
+        insert into supplier(su_no, su_name, su_contact, su_con_tel, su_introduce, su_pwd)
+        values(#{suNo},#{suName},#{suContact},#{suConTel},#{suIntroduce},#{suPwd})
+    </insert>
+</mapper>
