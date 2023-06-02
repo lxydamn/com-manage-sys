@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.CommodityMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.Commodity">
+        select * from commodity;
+    </select>
+    <select id="selectById" resultType="com.sql.cms.pojo.Commodity">
+        select * from commodity where co_no = #{co_no}
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Commodity">
+        insert into commodity
+        values (
+            #{coNo}, #{braName}, #{catName}, #{coType}, #{coJl}, #{coMarketProse},
+            #{coSalePrise}, #{coCostPrise}, #{coPhoto}, #{coIntroduce}, #{coNum}
+        )
+    </insert>
+</mapper>

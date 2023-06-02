@@ -9,10 +9,18 @@ const routes = [
         redirect:'/login'
     },
     {
+        path:'/home',
+        redirect:'/login'
+    },
+    {
+        path:'/goods',
+        redirect:'/manage/goods'
+    },
+    {
         path: '/home',
         name: 'home',
         meta: {
-            author:true
+            author: true
         },
         component: () => import(/* webpackChunkName: "home" */ '../views/home.vue'),
         children: [
@@ -53,11 +61,45 @@ const routes = [
     },
     {
         path: '/goods',
-        name: 'goods',
+        name: 'goodsIndex',
         meta: {
             author:false
         },
-        component: () => import(/* webpackChunkName: "goods" */ '../views/goods.vue'),
+        component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/goodsIndex.vue'),
+        children: [
+            {
+                path: '/manage/brand',
+                name: 'brand',
+                meta: {
+                    author:false
+                },
+                component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/brand.vue'),
+            },
+            {
+                path: '/manage/categroy',
+                name: 'categroy',
+                meta: {
+                    author:false
+                },
+                component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/categroy.vue'),
+            },
+            {
+                path: '/manage/goodsSpecification',
+                name: 'goodsSpecification',
+                meta: {
+                    author:false
+                },
+                component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/goodsSpecification.vue'),
+            },
+            {
+                path: '/manage/goods',
+                name: 'goods',
+                meta: {
+                    author:false
+                },
+                component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/goods.vue'),
+            }
+        ]
     },
 
 ];
@@ -68,13 +110,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-    if (to.meta.author && !sessionStorage.getItem("is_login")) {
+    if (!to.meta.author && sessionStorage.getItem("is_login")) {
         const userStore = useUserStoreWithOut()
         if (userStore.is_supplier) {
-            next({name:'/supplier'})
+            next({name:'supplier'})
+            
         } else {
-            next({name:'/customer'})
+            next({name:'customer'})
         }
+    } else if (to.meta.author && !sessionStorage.getItem("is_login")) {
+        next({name:'login'})
     } else {
         next()
     }

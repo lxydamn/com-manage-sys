@@ -1,7 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2023/5/31 22:53:21                           */
+/* Created on:     2023/6/2 22:10:39                            */
 /*==============================================================*/
+
+drop database cms;
 
 create database cms;
 
@@ -125,9 +127,10 @@ create table orders_goods
 (
    co_no                char(12) not null,
    su_no                varchar(20) not null,
+   ord_goods_no         varchar(20) not null,
    ord_go_num           int not null,
    ord_go_time          datetime not null,
-   primary key (co_no, su_no)
+   primary key (co_no, su_no, ord_goods_no)
 );
 
 /*==============================================================*/

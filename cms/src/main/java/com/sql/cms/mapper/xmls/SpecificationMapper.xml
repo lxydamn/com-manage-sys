@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.SpecificationMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.Specification">
+        select * from specification;
+    </select>
+    <select id="selectById" resultType="com.sql.cms.pojo.Specification">
+        select * from specification where spe_no = #{spe_no}
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Specification">
+        insert into specification(spe_no, spe_name)
+        values(#{speNo},#{speName})
+    </insert>
+</mapper>

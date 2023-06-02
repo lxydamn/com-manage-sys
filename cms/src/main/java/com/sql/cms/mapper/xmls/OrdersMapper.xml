@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.OrdersMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.Orders">
+        select * from orders;
+    </select>
+    <select id="selectById" resultType="com.sql.cms.pojo.Orders">
+        select * from orders where ord_no = #{ord_no}
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Orders">
+        insert into orders(ord_no,cus_no,ord_time,ord_sumprise)
+        values(#{ord_no},#{cus_no}, #{ord_time}, #{ord_sumprise})
+    </insert>
+</mapper>

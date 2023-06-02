@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.CategoryMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.Category">
+        select * from category;
+    </select>
+    <select id="selectById" resultType="com.sql.cms.pojo.Category">
+        select * from category where cat_name = #{cat_name}
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.Category">
+        insert into category(cat_name, cat_website)
+        values(#{catName},#{catWebsite})
+    </insert>
+</mapper>

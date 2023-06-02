@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sql.cms.mapper.OrdersGoodsMapper">
+    <select id="selectAll" resultType="com.sql.cms.pojo.OrdersGoods">
+        select * from orders_goods;
+    </select>
+
+    <insert id="insertOne" parameterType="com.sql.cms.pojo.OrdersGoods">
+        insert into orders_goods
+        values (#{coNo}, #{suNo},#{ordGoNo},#{ordGoNum},#{ordGoTime})
+    </insert>
+</mapper>

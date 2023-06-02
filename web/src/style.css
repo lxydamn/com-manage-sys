@@ -78,3 +78,11 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
+.header-box {
+  display: flex;
+  justify-content: center;
+  background-color: #FFF;
+  box-shadow: 10px 5px 5px rgb(213, 211, 211);
+  width: 100%;
+}

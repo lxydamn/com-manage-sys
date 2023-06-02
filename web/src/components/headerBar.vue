@@ -71,9 +71,7 @@
             -webkit-text-fill-color:transparent;
         }
     }
-    .header-box {
-        display: flex;
-    }
+    
     .ant-menu-overflow {
         height: 10vh;
     }
