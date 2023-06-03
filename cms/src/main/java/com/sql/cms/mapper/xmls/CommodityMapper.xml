@@ -10,11 +10,38 @@
         select * from commodity where co_no = #{co_no}
     </select>
 
-    <insert id="insertOne" parameterType="com.sql.cms.pojo.Commodity">
+    <insert id="insertOne" parameterType="java.util.Map">
         insert into commodity
         values (
-            #{coNo}, #{braName}, #{catName}, #{coType}, #{coJl}, #{coMarketProse},
-            #{coSalePrise}, #{coCostPrise}, #{coPhoto}, #{coIntroduce}, #{coNum}
+            #{coNo},
+            #{braName},
+            #{catName},
+            #{coName},
+            #{coType},
+            #{coJl},
+            #{coMarketProse},
+            #{coSalePrise},
+            #{coCostPrise},
+            #{coPhoto},
+            #{coIntroduce},
+            #{coNum}
         )
     </insert>
+
+    <update id="updateOne" parameterType="java.util.Map">
+        update commodity set
+            co_no=#{newCoNo},
+            bra_name=#{braName},
+            cat_name=#{catName},
+            co_name=#{coName},
+            co_type=#{coType},
+            co_jl=#{coJl},
+            co_market_prose=#{coMarketProse},
+            co_sale_prise=#{coSalePrise},
+            co_cost_prise=#{coCostPrise},
+            co_photo=#{coPhoto},
+            co_introduce=#{coIntroduce},
+            co_num=#{coNum}
+        where co_no=#{oldCoNo}
+    </update>
 </mapper>

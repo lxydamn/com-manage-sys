@@ -11,7 +11,14 @@
     </select>
 
     <insert id="insertOne" parameterType="com.sql.cms.pojo.Category">
-        insert into category(cat_name, cat_website)
-        values(#{catName},#{catWebsite})
+        insert into category(cat_name, cat_photo)
+        values(#{catName},#{catPhoto})
     </insert>
+
+    <update id="updateOne" parameterType="java.util.Map">
+        update category set
+        cat_name=#{newCatName},
+        cat_photo=#{catPhoto}
+        where cat_name=#{oldCatName}
+    </update>
 </mapper>

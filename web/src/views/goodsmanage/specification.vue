@@ -13,11 +13,8 @@
     
     <a-table bordered :pagination="{ pageSize : 6}" :data-source="dataSource" :columns="columns" style="margin: 8px;">
         <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'braPhoto'">
-                <img :src="record.braPhoto" alt="品牌图片" style="width: 30px; height:30px;"/>
-            </template>
             <template v-if="column.dataIndex === 'operation'">
-                <a-popconfirm v-if="dataSource.length" title="Sure to delete?" @confirm="onDelete(record.braName)">
+                <a-popconfirm v-if="dataSource.length" title="Sure to delete?" @confirm="onDelete(record.speNo)">
                     <a>删除</a>
                 </a-popconfirm>
                   <span style="margin: 15px;">
@@ -36,9 +33,8 @@
       @ok="handleOk"
       @cancel="cleanInput"
     >
-        <a-input style="margin: 15px;" v-model:value="inputBrand.braName" placeholder="品牌名" />
-        <a-input style="margin: 15px;" v-model:value="inputBrand.braWebsite" placeholder="品牌网站" />
-        <a-input style="margin: 15px;" v-model:value="inputBrand.braPhoto" placeholder="品牌图片" />
+        <a-input style="margin: 15px;" v-model:value="inputSpecification.speNo" placeholder="规格编号" />
+        <a-input style="margin: 15px;" v-model:value="inputSpecification.speName" placeholder="规格名称" />
     </a-modal>
     
 </template>
@@ -50,10 +46,8 @@ import axios from 'axios';
 import { notification } from 'ant-design-vue';
 
 interface DataItem {
-    key: string;
-    braName: string;
-    braWebsite: string;
-    braPhoto: string;
+    speNo: string;
+    speName: string;
 }
 
 export default defineComponent({
@@ -64,26 +58,21 @@ export default defineComponent({
     setup() {
         const columns = [
             {
-                title: '品牌名',
-                dataIndex: 'braName',
+                title: '规格编号',
+                dataIndex: 'speNo',
             },
             {
-                title: '品牌网站',
-                dataIndex: 'braWebsite',
-            },
-            {
-                title: '品牌图片',
-                dataIndex: 'braPhoto',
+                title: '规格名称',
+                dataIndex: 'speName',
             },
             {
                 title:'操作',
                 dataIndex:'operation'
             }
         ];
-        const inputBrand = reactive({
-            braName:'',
-            braWebsite:'',
-            braPhoto:''
+        const inputSpecification = reactive({
+            speNo:'',
+            speName:''
         })
         let modalVisible = ref(false)
         const dataSource: Ref<DataItem[]> = ref([]);
@@ -98,7 +87,7 @@ export default defineComponent({
         const freshData = () => {
             
             axios ({
-                url:"http://localhost:8080/api/brand/get/all",
+                url:"http://localhost:8080/api/specification/get/all",
                 method:'GET',
             })
                 .then((resp) => {
@@ -111,23 +100,22 @@ export default defineComponent({
 
         freshData()
 
-        let oldBraName=''
+        let oldSpeNo=''
         let isModify = ref(false)
         let searchValue = ref('')
 
 
         const onSearch = () => {
-             dataSource.value = dataSource.value.filter(item => item.braName.includes(searchValue.value))
+             dataSource.value = dataSource.value.filter(item => item.speNo.includes(searchValue.value))
         }
 
         const onMofify = (record: any) => {
 
             modalVisible.value = true
             isModify.value = true
-            oldBraName = record.braName
-            inputBrand.braName = record.braName
-            inputBrand.braWebsite = record.braWebsite
-            inputBrand.braPhoto = record.braPhoto
+            oldSpeNo = record.speNo
+            inputSpecification.speNo = record.speNo
+            inputSpecification.speName = record.speName
         }
 
         const handleOk = () => {
@@ -138,13 +126,13 @@ export default defineComponent({
                 handleAdd()
             }
         }
-        const onDelete = (braName: string) => {
-            console.log('delete', braName)
+        const onDelete = (SpeNo: string) => {
+            console.log('delete', SpeNo)
             // axios({
-            //     url:'http://localhost:8080/api/brand/delete',
+            //     url:'http://localhost:8080/api/Specification/delete',
             //     method:'POST',
             //     params: {
-            //         braName:braName,
+            //         SpeNo:SpeNo,
             //     }
             // })
             //     .then((resp) => {
@@ -165,17 +153,15 @@ export default defineComponent({
         };
         const cleanInput = () => {
             isModify.value = false  
-            inputBrand.braName = ''
-            inputBrand.braWebsite = ''
-            inputBrand.braPhoto = ''
-            oldBraName = ''
+            inputSpecification.speNo = ''
+            inputSpecification.speName = ''
+            oldSpeNo = ''
         }
 
         const checkInput = () => {
             if ( 
-                inputBrand.braName.length == 0 
-                ||inputBrand.braWebsite.length == 0 
-                || inputBrand.braPhoto.length == 0 
+                inputSpecification.speNo.length == 0 
+                || inputSpecification.speName.length == 0 
             ) return false
 
             return true
@@ -192,13 +178,12 @@ export default defineComponent({
             }
 
             axios({
-                url:'http://localhost:8080/api/brand/update',
+                url:'http://localhost:8080/api/specification/update',
                 method:'POST',
                 params: {
-                    oldBraName:oldBraName,
-                    newBraName:inputBrand.braName,
-                    braWebsite:inputBrand.braWebsite,
-                    braPhoto: inputBrand.braPhoto,
+                    oldSpeNo:oldSpeNo,
+                    newSpeNo:inputSpecification.speNo,
+                    speName: inputSpecification.speName,
                 }
             })
                 .then((resp) => {
@@ -210,7 +195,7 @@ export default defineComponent({
                         })
                         isModify.value = false
                         modalVisible.value = false
-                        oldBraName = ''
+                        oldSpeNo = ''
                         freshData()
                     } else {
                         notification.error({
@@ -232,12 +217,11 @@ export default defineComponent({
 
             modalVisible.value = false
             axios({
-                url:'http://localhost:8080/api/brand/insert',
+                url:'http://localhost:8080/api/specification/insert',
                 method:'POST',
                 params:{
-                    braName:inputBrand.braName,
-                    braWebsite:inputBrand.braWebsite,
-                    braPhoto:inputBrand.braPhoto,
+                    speNo:inputSpecification.speNo,
+                    speName:inputSpecification.speName,
                 }
             })
                 .then((resp) => {
@@ -264,7 +248,7 @@ export default defineComponent({
             onDelete,
             handleOk,
             dataSource,
-            inputBrand,
+            inputSpecification,
             modalVisible,
             searchValue,
             cleanInput,

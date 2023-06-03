@@ -16,9 +16,8 @@ public class SpecificationController {
     @Autowired
     private SpecificationService specificationService;
 
-    @GetMapping("/api/specification/all")
+    @GetMapping("/api/specification/get/all")
     public List<Specification> getAll() {
-
         return specificationService.getList();
     }
 
@@ -31,9 +30,14 @@ public class SpecificationController {
 
     @PostMapping("/api/specification/insert")
     public Map<String, String> insertOne(@RequestParam Map<String, String> map) {
-        String speNo = map.get("spe_no");
-        String speName = map.get("spe_name");
+        String speNo = map.get("speNo");
+        String speName = map.get("speName");
 
         return specificationService.insertOne(speNo, speName);
+    }
+
+    @PostMapping("/api/specification/update")
+    public Map<String, String> updateOne(@RequestParam Map<String, String> map) {
+        return specificationService.updateOne(map);
     }
 }

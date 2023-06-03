@@ -14,4 +14,11 @@
         insert into specification(spe_no, spe_name)
         values(#{speNo},#{speName})
     </insert>
+
+    <update id="updateOne" parameterType="java.util.Map">
+        update specification set
+        spe_no=#{newSpeNo},
+        spe_name=#{speName}
+        where spe_no=#{oldSpeNo}
+    </update>
 </mapper>

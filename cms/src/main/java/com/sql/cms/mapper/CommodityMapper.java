@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -13,5 +14,7 @@ public interface CommodityMapper {
 
     Commodity selectById(String coNo);
 
-    void insertOne(Commodity commodity);
+    void insertOne(Map<String, Object> map);
+
+    void updateOne(Map<String, Object> map);
 }

@@ -11,4 +11,6 @@ public interface SpecificationService {
     Specification getById(String speNo);
 
     Map<String, String> insertOne(String speNo, String speName);
+
+    Map<String, String> updateOne(Map<String, String> map);
 }

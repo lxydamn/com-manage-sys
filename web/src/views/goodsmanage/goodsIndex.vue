@@ -9,6 +9,11 @@
         <div class="content">
             <div class="side-menu">
                 <ul>
+                    <li :class="route.name === 'specification' ? 'active' : ''">
+                        <RouterLink to="specification">
+                            规格管理
+                        </RouterLink>
+                    </li>
                     <li :class="route.name === 'goods' ? 'active' : ''">
                         <RouterLink to="goods">
                             商品管理

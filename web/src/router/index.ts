@@ -92,6 +92,14 @@ const routes = [
                 component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/goodsSpecification.vue'),
             },
             {
+                path: '/manage/specification',
+                name: 'specification',
+                meta: {
+                    author:false
+                },
+                component: () => import(/* webpackChunkName: "goods" */ '../views/goodsmanage/specification.vue'),
+            },
+            {
                 path: '/manage/goods',
                 name: 'goods',
                 meta: {

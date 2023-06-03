@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -14,5 +15,7 @@ public interface CategoryMapper {
     Category selectById(String cat_name);
 
     void insertOne(Category category);
+
+    void updateOne(Map<String, String> map);
 
 }
