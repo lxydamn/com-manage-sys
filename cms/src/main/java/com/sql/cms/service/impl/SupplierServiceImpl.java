@@ -1,20 +1,57 @@
 package com.sql.cms.service.impl;
 
+import com.sql.cms.mapper.OrdersGoodsMapper;
 import com.sql.cms.mapper.SupplierMapper;
+import com.sql.cms.pojo.OrdersGoods;
 import com.sql.cms.pojo.Supplier;
 import com.sql.cms.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
 
     @Autowired
     private SupplierMapper supplierMapper;
+
+    @Autowired
+    private OrdersGoodsMapper ordersGoodsMapper;
+
+    @Override
+    public List<OrdersGoods> getRecord() {
+        return ordersGoodsMapper.selectAll();
+    }
+
+    @Override
+    public Map<String, String> supply(Map<String, String> map) {
+
+        Map<String, String> resp = new HashMap<>();
+        String supplier = map.get("supplier");
+        String coNo = map.get("coNo");
+        Integer coNum = Integer.parseInt(map.get("coNum"));
+        Date date = new Date(System.currentTimeMillis());
+        String currentTime = String.valueOf(System.currentTimeMillis());
+
+        String ordNo = "SUCOM-"
+                + UUID.randomUUID().toString().substring(0, 6)
+                + currentTime.substring(currentTime.length() - 6);
+
+        OrdersGoods ordersGoods = new OrdersGoods(coNo, supplier, ordNo, coNum, date);
+
+        try {
+            ordersGoodsMapper.insertOne(ordersGoods);
+        } catch (Exception e) {
+            resp.put("error_info", "未知错误");
+            return resp;
+        }
+
+        resp.put("error_info", "success");
+        return resp;
+    }
+
     @Override
     public Map<String, String> supplierLogin(String id, String password) {
         Map<String, String> resp = new HashMap<>();

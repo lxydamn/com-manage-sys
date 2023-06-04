@@ -14,7 +14,7 @@ public class OrdersGoods {
     private String coNo;
     private String suNo;
     private String ordGoNo;
-    private String ordGoNum;
+    private Integer ordGoNum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date ordGoTime;
 }

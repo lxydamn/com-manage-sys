@@ -98,3 +98,7 @@ button:focus-visible {
   display: flex;
   align-items: center;
 }
+
+*{
+  clear: both;
+}

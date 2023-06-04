@@ -26,7 +26,7 @@
   <style scoped>
     .container {
       background-color: rgb(223, 222, 222);
-      height: 100vh;
+      height: 90vh;
     }
   </style>
   
