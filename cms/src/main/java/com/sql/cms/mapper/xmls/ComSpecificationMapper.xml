@@ -3,12 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sql.cms.mapper.ComSpecificationMapper">
+    <select id="selectById" parameterType="java.util.Map" resultType="com.sql.cms.pojo.ComSpecification">
+        select * from com_specification where co_no = #{coNo} and spe_no = #{speNo}
+    </select>
+
     <select id="selectAll" resultType="com.sql.cms.pojo.ComSpecification">
         select * from com_specification;
     </select>
 
-    <insert id="insertOne" parameterType="com.sql.cms.pojo.ComSpecification">
+    <insert id="insertOne" parameterType="java.util.Map">
         insert into com_specification
         values ( #{coNo}, #{speNo}, #{comSpeDescription} )
     </insert>
+
+    <update id="updateOne" parameterType="java.util.Map">
+        update com_specification set
+        com_spe_description=#{comSpeDescription}
+        where co_no = #{coNo} and spe_no = #{speNo}
+    </update>
 </mapper>

@@ -441,16 +441,8 @@ export default defineComponent({
     justify-content: space-between;
     margin-bottom: 10px;
   }
-  .input-foreign {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-  }
-
-  .input-foreign span {
-    display: flex;
-    align-items: center;
-  }
+ 
+  
   .tool-bar {
       display: flex;
       padding: 15px;

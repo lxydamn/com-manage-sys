@@ -86,3 +86,15 @@ button:focus-visible {
   box-shadow: 10px 5px 5px rgb(213, 211, 211);
   width: 100%;
 }
+
+.input-foreign {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+
+.input-foreign span {
+  display: flex;
+  align-items: center;
+}

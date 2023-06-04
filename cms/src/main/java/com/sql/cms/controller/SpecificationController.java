@@ -24,7 +24,6 @@ public class SpecificationController {
     @GetMapping("/api/specification/id")
     public Specification getById(@RequestParam Map<String, String> map) {
         String speNo = map.get("spe_no");
-
         return specificationService.getById(speNo);
     }
 
@@ -32,7 +31,6 @@ public class SpecificationController {
     public Map<String, String> insertOne(@RequestParam Map<String, String> map) {
         String speNo = map.get("speNo");
         String speName = map.get("speName");
-
         return specificationService.insertOne(speNo, speName);
     }
 
