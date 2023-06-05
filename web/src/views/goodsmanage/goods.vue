@@ -393,6 +393,7 @@ export default defineComponent({
                   coMarketProse:inputCommodity.coMarketProse,
                   coSalePrise:inputCommodity.coSalePrise,
                   coCostPrise:inputCommodity.coCostPrise,
+                  coPhoto:inputCommodity.coPhoto,
                   coIntroduce:inputCommodity.coIntroduce,
                   coNum:0,
               }

@@ -15,6 +15,10 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @PostMapping("/api/customer/submit")
+    public Map<String, String> submitOrder(@RequestParam Map<String, Object> map) {
+        return customerService.submitOrder(map);
+    }
     @PostMapping("/api/customer/login")
     public Map<String, String> customerLogin(@RequestParam Map<String, String> map) {
         String id = map.get("id");

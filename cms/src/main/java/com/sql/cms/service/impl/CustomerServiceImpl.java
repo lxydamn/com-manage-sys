@@ -20,6 +20,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Map<String, String> submitOrder(Map<String, Object> map) {
+        System.out.println(map);
+        return null;
+    }
+
+    @Override
     public Map<String, String> customerLogin(String id, String password) {
 
         Map<String, String> resp = new HashMap<>();

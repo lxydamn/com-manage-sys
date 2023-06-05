@@ -241,8 +241,8 @@ export default defineComponent({
   }
 
   .goods-item {
-    height: 15rem;
-    width: 15;
+    height: 13rem;
+    width: 13rem;
     margin: 1rem;
     text-align: center;
   }
