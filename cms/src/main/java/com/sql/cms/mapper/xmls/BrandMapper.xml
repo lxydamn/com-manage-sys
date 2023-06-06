@@ -19,6 +19,9 @@
             bra_photo=#{braPhoto}
         where bra_name=#{oldBraName}
     </update>
+    <delete id="deleteOne" parameterType="java.util.Map">
+        delete from brand where bra_name=#{braName}
+    </delete>
 
     <insert id="insertOne" parameterType="com.sql.cms.pojo.Brand">
         insert into brand(bra_name, bra_website, bra_photo)

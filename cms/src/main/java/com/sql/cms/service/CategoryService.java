@@ -10,6 +10,7 @@ public interface CategoryService {
 
     List<Category> getAll();
 
+    Map<String, String> deleteOne(Map<String , String> map);
     Category getById(String catName);
 
     Map<String,String> insertOne(String catName, String catPhoto);

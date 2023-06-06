@@ -17,5 +17,7 @@ public interface BrandMapper {
 
     void updateOne(Map<String, String> map);
 
+    void deleteOne(Map<String, String> map);
+
 
 }

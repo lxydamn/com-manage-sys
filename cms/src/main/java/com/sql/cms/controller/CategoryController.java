@@ -18,6 +18,10 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
+    @PostMapping("/api/category/delete")
+    public Map<String, String> deleteBrand(@RequestParam Map<String, String> map) {
+        return categoryService.deleteOne(map);
+    }
     @GetMapping("/api/category/get/all")
     public List<Category> getAll() {
         return categoryService.getAll();

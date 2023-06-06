@@ -9,6 +9,7 @@ import java.util.Map;
 public interface CommodityService {
 
     List<Commodity> getAll();
+    Map<String, String> deleteOne(Map<String, String> map);
 
     Map<String,String> insertOne(Map<String, Object> map);
 

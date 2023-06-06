@@ -29,6 +29,21 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public Map<String, String> deleteOne(Map<String , String > map) {
+        Map<String, String> resp = new HashMap<>();
+
+        try {
+            brandMapper.deleteOne(map);
+        } catch (Exception e) {
+            resp.put("error_info","删除失败");
+            return resp;
+        }
+
+        resp.put("error_info","success");
+        return  resp;
+    }
+
+    @Override
     public Map<String, String> insertOne(String braName, String braWebsite, String braPhoto) {
 
         Map<String, String> resp = new HashMap<>();

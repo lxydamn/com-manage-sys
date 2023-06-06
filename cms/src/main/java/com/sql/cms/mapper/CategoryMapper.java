@@ -14,6 +14,8 @@ public interface CategoryMapper {
 
     Category selectById(String cat_name);
 
+    void deleteOne(Map<String, String> map);
+
     void insertOne(Category category);
 
     void updateOne(Map<String, String> map);

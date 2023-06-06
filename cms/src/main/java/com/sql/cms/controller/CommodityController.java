@@ -18,6 +18,10 @@ public class CommodityController {
     @Autowired
     private CommodityService commodityService;
 
+    @PostMapping("/api/commodity/delete")
+    public Map<String, String> deleteBrand(@RequestParam Map<String, String> map) {
+        return commodityService.deleteOne(map);
+    }
     @GetMapping("/api/commodity/get/all")
     public List<Commodity> getAll() {
         return commodityService.getAll();

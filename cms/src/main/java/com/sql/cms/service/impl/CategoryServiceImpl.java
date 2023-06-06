@@ -22,6 +22,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Map<String, String> deleteOne(Map<String, String> map) {
+        Map<String, String> resp = new HashMap<>();
+
+        try {
+            categoryMapper.deleteOne(map);
+        } catch (Exception e) {
+            resp.put("error_info","删除失败");
+            return resp;
+        }
+
+        resp.put("error_info","success");
+        return  resp;
+    }
+
+    @Override
     public Category getById(String catName) {
         return categoryMapper.selectById(catName);
     }

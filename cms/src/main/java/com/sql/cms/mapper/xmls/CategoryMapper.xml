@@ -10,6 +10,10 @@
         select * from category where cat_name = #{cat_name}
     </select>
 
+    <delete id="deleteOne" parameterType="java.util.Map">
+        delete from category where cat_name=#{catName}
+    </delete>
+
     <insert id="insertOne" parameterType="com.sql.cms.pojo.Category">
         insert into category(cat_name, cat_photo)
         values(#{catName},#{catPhoto})

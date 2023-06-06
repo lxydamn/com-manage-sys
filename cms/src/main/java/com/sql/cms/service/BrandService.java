@@ -11,6 +11,8 @@ public interface BrandService {
 
     Brand getById(String braNo);
 
+    Map<String, String> deleteOne(Map<String , String > map);
+
     Map<String,String> insertOne(String braName, String braWebsite, String braPhoto);
 
     Map<String, String> updateOne(Map<String, String> map);

@@ -10,6 +10,10 @@
         select * from commodity where co_no = #{co_no}
     </select>
 
+    <delete id="deleteOne" parameterType="java.util.Map">
+        delete from commodity where co_no = #{coNo}
+    </delete>
+
     <insert id="insertOne" parameterType="java.util.Map">
         insert into commodity
         values (

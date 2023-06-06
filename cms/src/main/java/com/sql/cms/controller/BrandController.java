@@ -17,6 +17,11 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @PostMapping("/api/brand/delete")
+    public Map<String, String> deleteBrand(@RequestParam Map<String, String> map) {
+        return brandService.deleteOne(map);
+    }
+
     @GetMapping("/api/brand/get/all")
     public List<Brand> getAll() {
         return brandService.getAll();

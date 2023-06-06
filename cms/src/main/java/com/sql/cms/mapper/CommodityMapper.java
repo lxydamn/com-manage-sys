@@ -13,6 +13,7 @@ public interface CommodityMapper {
     List<Commodity> selectAll();
 
     Commodity selectById(String coNo);
+    void deleteOne(Map<String, String> map);
 
     void insertOne(Map<String, Object> map);
 

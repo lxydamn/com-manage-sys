@@ -140,27 +140,27 @@ export default defineComponent({
         }
         const onDelete = (braName: string) => {
             console.log('delete', braName)
-            // axios({
-            //     url:'http://localhost:8080/api/brand/delete',
-            //     method:'POST',
-            //     params: {
-            //         braName:braName,
-            //     }
-            // })
-            //     .then((resp) => {
-            //         const data = resp.data
-            //         if (data.error_info === 'success') {
-            //             notification.success({
-            //                 message:'删除成功',
-            //             })
-            //             freshData()
-            //         } else {
-            //             notification.error({
-            //                 message:'删除失败',
-            //                 description:data.error_info,
-            //             })
-            //         }
-            //     })
+            axios({
+                url:'http://localhost:8080/api/brand/delete',
+                method:'POST',
+                params: {
+                    braName:braName,
+                }
+            })
+                .then((resp) => {
+                    const data = resp.data
+                    if (data.error_info === 'success') {
+                        notification.success({
+                            message:'删除成功',
+                        })
+                        freshData()
+                    } else {
+                        notification.error({
+                            message:'删除失败',
+                            description:data.error_info,
+                        })
+                    }
+                })
 
         };
         const cleanInput = () => {
