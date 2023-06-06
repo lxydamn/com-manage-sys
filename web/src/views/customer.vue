@@ -7,7 +7,7 @@
           <li class="shop-item" v-for="item in shopGoods">
             <span style="width: 50%;">{{ item.coName}}</span>
             <span style="width: 40%;">{{ item.coNum }}</span>
-            <a-button style="" shape="circle" @click="handleAdd(item)">
+            <a-button style="" shape="circle" @click="handleSub(item)">
               <template #icon><MinusCircleOutlined /></template>
             </a-button>
           </li>
@@ -15,6 +15,7 @@
   
       </div>
       <div class="shop-btn">
+        <span>合记：{{count}}元</span> 
         <a-popconfirm title="确认下单" @confirm="confirm" @cancel="cancel">
           <a-button type="primary" style="width: 10rem;">下单</a-button>
         </a-popconfirm>
@@ -48,6 +49,11 @@
          />
       </div>
       <div class="record-content">
+        <ul class="order-items">
+          <li class="order-item" v-for="item in orderSource">
+            {{ item.cusNo }}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -68,6 +74,7 @@ import axios from 'axios';
 import { Ref, defineComponent, ref } from 'vue';
 import {PlusCircleOutlined, MinusCircleOutlined} from '@ant-design/icons-vue';
 import { useUserStore } from '../store/user';
+import { notification } from 'ant-design-vue';
 interface DataItem {
     coNo: string;
     braName:string;
@@ -83,10 +90,18 @@ interface DataItem {
     coNum:number;
 }
 
+interface Order {
+  ordNo:string;
+  cusNo:string;
+  ordTime:string;
+  ordSumPrise:number;
+}
+
 interface ShopGoods {
   coNo:String;
   coName:String;
   coNum:number;
+  coPrise:number;
 }
 
 export default defineComponent({
@@ -97,29 +112,62 @@ export default defineComponent({
 
   setup() {
     const userStore = useUserStore()
+    let count = ref(0.0)
     let modalVisible = ref(false)
     let input = ref('') 
     let coNo = ref('')
     let coName = ref('')
+    let coPrise = ref('')
 
+    const orderSource: Ref<Order []> = ref([]);
     const shopGoods: Ref<ShopGoods []> = ref([]);
     const dataSource: Ref<DataItem[]> = ref([]);
     const copySource: Ref<DataItem[]> = ref([]);
 
-    const confirm = (e: MouseEvent) => {
+    const clearSumbit = () => {
+      shopGoods.value = []
+    }
+
+    const confirm = () => {
+
+      if (shopGoods.value.length == 0) {
+        notification.warn({
+          message:'下单失败',
+          description:'未选商品，无效下单'
+        })
+
+        return
+      }
 
       axios({
         url:'http://localhost:8080/api/customer/submit',
         method:'POST',
         params: {
-          coNo:userStore.id,
+          cusNo:userStore.id,
           coms:JSON.stringify(shopGoods.value)
         }
       })
+        .then((resp) => {
+          const data = resp.data
 
-      console.log(e);
+          if (data.error_info === 'success') {
+
+            notification.success({
+              message:'下单成功',
+            })
+            clearSumbit()
+          } 
+        })
+        .catch(() => {
+
+            notification.error({
+              message:'下单失败',
+              description:'部分商品库存不足'
+            })
+        })
+      
       return new Promise(resolve => {
-        setTimeout(() => resolve(true), 3000);
+        setTimeout(() => resolve(true), 1000);
       });
     };
 
@@ -159,15 +207,41 @@ export default defineComponent({
             dataSource.value = resp.data
             copySource.value = resp.data
         })
+
+      axios ({
+              url:"http://localhost:8080/api/customer/shop/record",
+              method:'GET',
+              params: {
+                cusNo:userStore.id,
+              }
+      })
+        .then((resp) => {
+            console.log(resp.data)
+            orderSource.value = resp.data
+        })
     
     }
     freshData()
+
+    const handleSub = (item : any) => {
+      for (let i of shopGoods.value) {
+        if (i.coNo == item.coNo) {
+          i.coNum --
+          count.value = count.value - item.coPrise
+          if (i.coNum == 0) {
+            shopGoods.value = shopGoods.value.filter(it => it.coNo != i.coNo)
+          }
+
+          break
+        }
+      }
+    }
 
     const handleAdd = (item:any) => {
       modalVisible.value = true
       coNo.value = item.coNo
       coName.value = item.coName
-      
+      coPrise.value = item.coSalePrise
     }
 
     const handleOK = () => {
@@ -178,6 +252,7 @@ export default defineComponent({
         if (i.coNo == coNo.value) {
           i.coNum += parseInt(input.value)
           hasNo = true
+          break
         }
       }
 
@@ -185,8 +260,10 @@ export default defineComponent({
           shopGoods.value.push({
           coNo:coNo.value,
           coNum:parseInt(input.value),
-          coName:coName.value
+          coName:coName.value,
+          coPrise:parseFloat(coPrise.value),
         })
+        count.value += parseFloat(coPrise.value) * parseInt(input.value)
       } 
       
       handleCancle()
@@ -213,10 +290,13 @@ export default defineComponent({
       goodsSerach,
       onGoodsSearch,
       dataSource,
+      orderSource,
+      handleSub,
       columns,
       handleAdd,
       confirm,
       cancel,
+      count,
       input,
       handleOK,
       modalVisible,
@@ -232,7 +312,10 @@ export default defineComponent({
 <style scoped>
   .shop-btn {
     margin-bottom: 0.3rem;
-    text-align: center;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .shop-items {
     list-style: none;

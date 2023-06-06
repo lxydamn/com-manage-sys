@@ -7,11 +7,14 @@
         select * from orders;
     </select>
     <select id="selectById" resultType="com.sql.cms.pojo.Orders">
-        select * from orders where ord_no = #{ord_no}
+        select * from orders where ord_no = #{ordNo}
+    </select>
+    <select id="selectByCustomer" resultType="com.sql.cms.pojo.Orders">
+        select * from orders where cus_no = #{cusNo}
     </select>
 
     <insert id="insertOne" parameterType="com.sql.cms.pojo.Orders">
         insert into orders(ord_no,cus_no,ord_time,ord_sumprise)
-        values(#{ord_no},#{cus_no}, #{ord_time}, #{ord_sumprise})
+        values(#{ordNo},#{cusNo}, #{ordTime}, #{ordSumPrise})
     </insert>
 </mapper>

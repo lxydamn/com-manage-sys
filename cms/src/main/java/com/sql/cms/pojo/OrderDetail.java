@@ -13,5 +13,5 @@ public class OrderDetail {
     private String ordDetNo;
     private Double ordDetPrise;
     private Integer ordDetNum;
-    private Double ordDetSumprise;
+    private Double ordDetSumPrise;
 }

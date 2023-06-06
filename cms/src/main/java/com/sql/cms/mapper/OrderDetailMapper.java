@@ -11,6 +11,6 @@ import java.util.List;
 public interface OrderDetailMapper {
     List<OrderDetail> selectAll();
 
-
-    void insertOne(OrderDetail customer);
+    List<OrderDetail> selectByOrder(String ordNo);
+    void insertOne(OrderDetail orderDetail);
 }

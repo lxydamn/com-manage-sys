@@ -13,6 +13,7 @@ public interface OrdersMapper {
 
     List<Orders> selectAll();
 
+    List<Orders> selectByCustomer(String cusNo);
     Orders selectById(String ord_no);
 
     void insertOne(Orders orders);

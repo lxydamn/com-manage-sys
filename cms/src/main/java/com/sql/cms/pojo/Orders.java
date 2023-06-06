@@ -13,7 +13,7 @@ import java.util.Date;
 public class Orders {
     private String ordNo;
     private String cusNo;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ordTime;
     private Double ordSumPrise;
 }

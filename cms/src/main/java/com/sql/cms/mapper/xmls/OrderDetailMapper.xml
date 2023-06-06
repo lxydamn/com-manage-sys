@@ -6,9 +6,12 @@
     <select id="selectAll" resultType="com.sql.cms.pojo.OrderDetail">
         select * from order_detail;
     </select>
+    <select id="selectByOrder" resultType="com.sql.cms.pojo.OrderDetail">
+        select * from order_detail where ord_no = #{ordNo}
+    </select>
 
     <insert id="insertOne" parameterType="com.sql.cms.pojo.OrderDetail">
         insert into order_detail
-        values (#{coNo}, #{ordNo},#{ordDetNo},#{ordDetPrise},#{ordDetNum},#{ordDetSumprise})
+        values (#{coNo}, #{ordNo},#{ordDetNo},#{ordDetPrise},#{ordDetNum},#{ordDetSumPrise})
     </insert>
 </mapper>

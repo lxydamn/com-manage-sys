@@ -1,13 +1,20 @@
 package com.sql.cms.service;
 
 import com.sql.cms.pojo.Customer;
+import com.sql.cms.pojo.OrderDetail;
+import com.sql.cms.pojo.Orders;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CustomerService {
     Customer getUserById(String id);
 
-    Map<String, String> submitOrder(Map<String, Object> map);
+    List<Orders> getRecord(Map<String, String> map);
+
+    List<OrderDetail> getDetail(Map<String, String> map);
+
+    Map<String, String> submitOrder(Map<String, String> map);
 
     Map<String, String> customerLogin(String id, String password);
 
