@@ -20,7 +20,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/api/customer/record/detail")
-    public List<OrderDetail> getDetail(@RequestParam Map<String, String> map) {
+    public List<Map<String, Object>> getDetail(@RequestParam Map<String, String> map) {
         return customerService.getDetail(map);
     }
 

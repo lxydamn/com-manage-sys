@@ -6,11 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 @Mapper
 @Repository
 public interface OrderDetailMapper {
     List<OrderDetail> selectAll();
 
-    List<OrderDetail> selectByOrder(String ordNo);
+    List<Map<String, Object>> selectByOrder(String ordNo);
     void insertOne(OrderDetail orderDetail);
 }

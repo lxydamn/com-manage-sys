@@ -12,7 +12,7 @@ public interface CustomerService {
 
     List<Orders> getRecord(Map<String, String> map);
 
-    List<OrderDetail> getDetail(Map<String, String> map);
+    List<Map<String, Object>> getDetail(Map<String, String> map);
 
     Map<String, String> submitOrder(Map<String, String> map);
 

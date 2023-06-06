@@ -12,7 +12,6 @@
             </a-button>
           </li>
         </ul>
-  
       </div>
       <div class="shop-btn">
         <span>合记：{{count}}元</span> 
@@ -40,23 +39,39 @@
     <div class="record-container">
       <div class="search-bar">
         <a-input-search
-          v-model:value="goodsSerach"
+          v-model:value="recordSerach"
           placeholder="输入订单编号"
           enter-button="Search"
           size="large"
-          @search="onGoodsSearch"
-          @change="recoverGoodsData"
+          @search="onRecordSearch"
+          @change="recoverRecordData"
          />
       </div>
       <div class="record-content">
-        <ul class="order-items">
-          <li class="order-item" v-for="item in orderSource">
-            {{ item.cusNo }}
+        <ul class="record-items">
+          <li class="record-item" v-for="item in orderSource">
+            <span>{{item.ordNo}}</span>
+            <a-button type="primary" @click="openDetail(item)">
+              详情
+            </a-button>
           </li>
         </ul>
       </div>
     </div>
   </div>
+
+  <a-modal v-model:visible="orderDetail" title="订单详情" @ok="orderDetail=false">
+    <ul class="detail-items">
+      <li class="detail-item" v-for="item in detail">
+        <span>{{item.co_name}}</span>
+        <span>{{item.bra_name}}</span>
+        <span>{{item.ord_det_num}} {{item.co_jl }} </span>
+        <span> {{item.ord_det_prise}}元 </span>
+        <span>共{{item.ord_det_prise * item.ord_det_num}} 元</span>
+      </li>
+    </ul>
+ 
+  </a-modal>
 
   <a-modal
       v-model:visible="modalVisible"
@@ -67,6 +82,8 @@
     >
     <a-input-number style="margin: 15px; width:300px" v-model:value="input" placeholder="购买数量" />
   </a-modal>
+
+
 </template>
 
 <script lang="ts">
@@ -89,7 +106,13 @@ interface DataItem {
     coIntroduce:string;
     coNum:number;
 }
-
+interface OrderDetail {
+  co_name:string
+  ord_det_num:number
+  co_jl:string
+  ord_det_prise:number
+  bra_name:string
+}
 interface Order {
   ordNo:string;
   cusNo:string;
@@ -114,6 +137,7 @@ export default defineComponent({
     const userStore = useUserStore()
     let count = ref(0.0)
     let modalVisible = ref(false)
+    let orderDetail = ref(false)
     let input = ref('') 
     let coNo = ref('')
     let coName = ref('')
@@ -122,10 +146,30 @@ export default defineComponent({
     const orderSource: Ref<Order []> = ref([]);
     const shopGoods: Ref<ShopGoods []> = ref([]);
     const dataSource: Ref<DataItem[]> = ref([]);
-    const copySource: Ref<DataItem[]> = ref([]);
+    const copySource: Ref<Order[]> = ref([]);
+
+    const detail: Ref<OrderDetail[]> = ref([]);
 
     const clearSumbit = () => {
       shopGoods.value = []
+      count.value = 0
+    }
+
+    const openDetail = (item:any) => {
+      orderDetail.value = true;
+     
+      axios ({
+        url:'http://localhost:8080/api/customer/record/detail',
+        method:'GET',
+        params:{
+          ordNo: item.ordNo,
+        }
+      })
+        .then((resp) => {
+          console.log(resp.data)
+          detail.value = resp.data
+        })
+      
     }
 
     const confirm = () => {
@@ -156,6 +200,7 @@ export default defineComponent({
               message:'下单成功',
             })
             clearSumbit()
+            freshData()
           } 
         })
         .catch(() => {
@@ -175,7 +220,7 @@ export default defineComponent({
       console.log(e);
     };
 
-    const goodsSerach = ref('')
+    const recordSerach = ref('')
 
     const columns = [
       
@@ -205,7 +250,7 @@ export default defineComponent({
       })
         .then((resp) => {
             dataSource.value = resp.data
-            copySource.value = resp.data
+
         })
 
       axios ({
@@ -218,6 +263,7 @@ export default defineComponent({
         .then((resp) => {
             console.log(resp.data)
             orderSource.value = resp.data
+            copySource.value = resp.data
         })
     
     }
@@ -270,14 +316,14 @@ export default defineComponent({
 
     }
 
-    const recoverGoodsData = (e:any) => {
+    const recoverRecordData = (e:any) => {
       if (e.data == null) {
-        dataSource.value = copySource.value;
+        orderSource.value = copySource.value;
       }
     }
 
-    const onGoodsSearch = () => {
-      dataSource.value = dataSource.value.filter(item => item.coName.includes(goodsSerach.value))
+    const onRecordSearch = () => {
+      orderSource.value = orderSource.value.filter(item => item.ordNo.includes(recordSerach.value))
     }
     
     const handleCancle = () => {
@@ -287,8 +333,9 @@ export default defineComponent({
 
 
     return {
-      goodsSerach,
-      onGoodsSearch,
+      recordSerach,
+      onRecordSearch,
+      orderDetail,
       dataSource,
       orderSource,
       handleSub,
@@ -301,8 +348,10 @@ export default defineComponent({
       handleOK,
       modalVisible,
       handleCancle,
-      recoverGoodsData,
+      recoverRecordData,
       shopGoods,
+      openDetail,
+      detail,
     }
   }
 })
@@ -390,21 +439,38 @@ export default defineComponent({
     height: 40rem;
     overflow: hidden auto;
   }
+
+  .record-items {
+    list-style: none;
+    margin: 0;
+    padding: 0.2rem;
+  }
+
+  .detail-item {
+    height: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .detail-items {
+    margin: 0;
+    padding: 0.3rem;
+  }
   .record-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 0.5rem;
     height: 2.5rem;
+    padding: 0.2rem;
     border-radius: 5px;
+    transition: 0.2s;
   }
   .record-item:hover {
     background-color: #d0e7ff;
+    height: 3rem;
     color: #000;
   }
-  .record-content ul {
-    list-style: none;
-    margin: 0.5rem;
-    padding: 0;
-  }
-  
+
   .record-content {
     margin-top: 1rem;
     background-color: #FFF;

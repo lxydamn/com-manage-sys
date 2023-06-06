@@ -95,7 +95,6 @@ export default defineComponent({
                     dataSource.value = resp.data
                     copySource.value = resp.data
                 })
-            
         }
 
         freshData()

@@ -40,7 +40,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<OrderDetail> getDetail(Map<String, String> map) {
+    public List<Map<String, Object>> getDetail(Map<String, String> map) {
+        System.out.println(orderDetailMapper.selectByOrder(map.get("ordNo")));
         return orderDetailMapper.selectByOrder(map.get("ordNo"));
     }
 

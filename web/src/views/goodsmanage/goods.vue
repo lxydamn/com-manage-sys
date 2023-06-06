@@ -1,6 +1,28 @@
 <template>
   <div class="tool-bar">
       <a-button size="large" style="width: 15%; margin-right:20px" class="editable-add-btn" @click="modalVisible=true">添加</a-button>
+      
+      <a-select
+        ref="select"
+        size="large"
+        style="width: 10%;margin-left:1rem; margin-right:1rem;"
+        v-model:value="categorySerach"
+        @change="handleCatChange"
+        :options="catOption"
+        >
+        
+        </a-select>
+
+        <a-select
+            ref="select"
+            size="large"
+            style="width: 10%; margin-left:1rem; margin-right:2rem;"
+            v-model:value="brandSerach"
+            @change="handleBraChange"
+            :options="braOption"
+        >
+        
+        </a-select>
       <a-input-search
         v-model:value="searchValue"
         placeholder="输入内容"
@@ -40,11 +62,12 @@
       <div class="input-foreign">
           <span>商品品牌</span>
           <a-select
-          ref="select"
-          style="width: 30%;"
-          v-model:value="inputCommodity.braName"
-          :options="braOption"
-        ></a-select>
+            ref="select"
+            style="width: 30%;"
+            v-model:value="inputCommodity.braName"
+            :options="braOption"
+         >
+            </a-select>
           <span>商品类别</span>
           <a-select
           ref="select"
@@ -119,7 +142,7 @@ export default defineComponent({
           },
           {
               title:'单位',
-              dataIndex:'coType',
+              dataIndex:'coJl',
           },
           {
               title:'市场价',
@@ -150,6 +173,9 @@ export default defineComponent({
               dataIndex:'operation',
           },
       ];
+
+
+
       const inputCommodity = reactive({
         coNo: '',
         braName:'',
@@ -167,6 +193,10 @@ export default defineComponent({
 
       let modalVisible = ref(false)
 
+
+      const categorySerach = ref('全部')
+      const brandSerach = ref('全部')
+
       const dataSource: Ref<DataItem[]> = ref([]);
       const copySource: Ref<DataItem[]> = ref([]);
 
@@ -178,6 +208,16 @@ export default defineComponent({
           if (e.data == null) {
               dataSource.value = copySource.value
           }
+      }
+
+      const handleCatChange = (value:any, _option:any) => {
+        dataSource.value = copySource.value
+        dataSource.value = dataSource.value.filter(item => item.catName === value )
+      }
+
+      const handleBraChange = (value:any, _option:any) => {
+        dataSource.value = copySource.value
+        dataSource.value = dataSource.value.filter(item => item.braName === value)
       }
 
       const freshData = () => {
@@ -419,6 +459,8 @@ export default defineComponent({
 
       return {
           columns,
+          categorySerach,
+          brandSerach,
           onDelete,
           handleOk,
           dataSource,
@@ -427,6 +469,8 @@ export default defineComponent({
           inputCommodity,
           modalVisible,
           searchValue,
+          handleCatChange,
+          handleBraChange,
           cleanInput,
           onMofify,
           recoverData,
