@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.*;
 
@@ -62,9 +61,13 @@ public class CustomerServiceImpl implements CustomerService {
             System.out.println(jsonArray);
             for (Object jsonObject : jsonArray) {
                 jsonObject = (JSONObject) jsonObject;
-                String coNo = ((JSONObject) jsonObject).getString("coNo");
-                Double prise = Double.parseDouble(((JSONObject) jsonObject).getString("coPrise"));
-                Integer num = Integer.parseInt(((JSONObject) jsonObject).getString("coNum"));
+
+                String coNo = ((JSONObject) jsonObject)
+                        .getString("coNo");
+                Double prise = Double.parseDouble(((JSONObject) jsonObject)
+                        .getString("coPrise"));
+                Integer num = Integer.parseInt(((JSONObject) jsonObject)
+                        .getString("coNum"));
                 double coSum = num * prise;
                 details.add(new OrderDetail(
                         coNo,

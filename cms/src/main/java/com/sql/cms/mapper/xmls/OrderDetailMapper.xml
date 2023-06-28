@@ -6,9 +6,11 @@
     <select id="selectAll" resultType="com.sql.cms.pojo.OrderDetail">
         select * from order_detail;
     </select>
+
     <select id="selectByOrder" resultType="java.util.Map">
         select commodity.co_name,co_jl,commodity.bra_name,ord_det_num,ord_det_prise
-        from order_detail, commodity where commodity.co_no = order_detail.co_no and order_detail.ord_no = #{ordNo}
+        from order_detail, commodity
+        where commodity.co_no = order_detail.co_no and order_detail.ord_no = #{ordNo}
     </select>
 
     <insert id="insertOne" parameterType="com.sql.cms.pojo.OrderDetail">
